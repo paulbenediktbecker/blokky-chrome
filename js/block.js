@@ -5,7 +5,7 @@ document.querySelector('.progress').style.width = '100%';
 
 setTimeout(() => {
   document.querySelector('.timer-options').style.display = 'block';
-}, 10000);
+}, 2000);
 
 // In block.js:
 document.querySelectorAll('.timer-options button').forEach(btn => {
@@ -16,7 +16,8 @@ document.querySelectorAll('.timer-options button').forEach(btn => {
     chrome.runtime.sendMessage({
       action: 'scheduleClose',
       tabId: tab.id,
-      time: minutes * 60 // Umrechnung in Sekunden
+      originalUrl: originalUrl,
+      minutes: minutes // Umrechnung in Sekunden
     });
     
     location.href = originalUrl;
