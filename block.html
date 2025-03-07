@@ -1,34 +1,33 @@
-<!DOCTYPE html>
 <html>
+
 <head>
-  <style>
-    .progress-bar {
-      width: 100%;
-      height: 20px;
-      background-color: #ddd;
-    }
-    .progress {
-      width: 0%;
-      height: 100%;
-      background-color: #4CAF50;
-      transition: width 2s linear;
-    }
-    .timer-options {
-      display: none;
-      margin-top: 20px;
-    }
-  </style>
+  <title>This site is blokked</title>
+  <script src="../style/tailwindV4.js"></script>
+  <link rel="stylesheet" href="../style/daisyUI.css">
 </head>
+
 <body>
-  <div class="progress-bar">
-    <div class="progress"></div>
-  </div>
-  <div class="timer-options">
-    <button data-time="5">5 Minuten</button>
-    <button data-time="10">10 Minuten</button>
-    <button data-time="15">15 Minuten</button>
-    <button data-time="30">30 Minuten</button>
+  <div class="p-6 m-10 max-w-4xl lg:mx-auto bg-base-200 rounded-xl shadow-md">
+
+    <p class="text-4xl text-primary pb-2">This site is blokked!</p>
+    <p class="text-lg pb-5">You chose to block this site, because it decreases your productivity. Are you sure you want to access this site?</p>
+    <div class="relative p-4 mb-4">
+      <!-- Overlay with progress bar -->
+      <div id="overlay" class="absolute inset-0 bg-gray-500/90 flex items-center justify-center rounded-xl">
+        <div id="progressBarCirc" class="radial-progress text-primary" style="--value:0; --size:6rem;" role="progressbar"></div>
+        <!--<progress id="progressBar" class="progress progress-primary w-20" value="0" max="1000"></progress>-->
+      </div>
+      <div class="timer-options grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <button data-time="5" class="btn btn-lg btn-success">5 Minutes</button>
+        <button data-time="10" class="btn btn-lg btn-info">10 Minutes</button>
+        <button data-time="15" class="btn btn-lg btn-warning">15 Minutes</button>
+        <button data-time="30" class="btn btn-lg btn-neutral">30 Minutes</button>
+      </div>
+      <p class="">The tab will automatically close after the time passed.</p>
+    </div>
+    <button id="cancel" class="btn btn-lg w-full btn-error">I've changed my mind, close this tab.</button>
   </div>
   <script src="js/block.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "version": "1.0",
+    "version": "0.0.3",
     "name": "Blokky Chrome",
     "action": {
       "default_title": "Blokky Einstellungen"
