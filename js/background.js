@@ -3,7 +3,7 @@ import { isMatchingDomain, normalizeDomain } from './domainMatching.js';
 
 let blockedSites = [];
 let whitelist = [];
-const BLOCK_PAGE = chrome.runtime.getURL('block.html');
+const BLOCK_PAGE = chrome.runtime.getURL('block/block.html');
 const CONFIG_PAGE = chrome.runtime.getURL('config/config.html');
 
 // Hilfsfunktionen
