@@ -4,7 +4,7 @@ import { isMatchingDomain, normalizeDomain } from './domainMatching.js';
 let blockedSites = [];
 let whitelist = [];
 let settings = {
-  timeSlotsEnabled: true,
+  timeSlotsEnabled: false,
   timeFrom: '08:00',
   timeTo: '18:00'
 };

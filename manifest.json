@@ -1,18 +1,42 @@
 {
-    "manifest_version": 3,
-    "version": "0.0.3",
-    "name": "Blokky Chrome",
-    "action": {
-      "default_title": "Blokky Settings"
-    },
-    "background": {
-      "service_worker": "js/background.js",
-      "type": "module"
-    },
-    "permissions": ["storage", "activeTab", "tabs", "alarms"],
-    "host_permissions": ["<all_urls>"],
-    "web_accessible_resources": [{
-      "resources": ["block/block.html", "config/config.html"],
-      "matches": ["<all_urls>"]
-    }]
-  }
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "Blokky",
+  "description": "Blokky is a simple website blocker, that helps you to focus by blocking websites distracting you.",
+  "author": {
+    "email": "blokky@robingebert.com"
+  },
+  "icons": {
+    "16": "icons/logo_16.png",
+    "48": "icons/logo_48.png",
+    "128": "icons/logo_128.png",
+    "256": "icons/logo_256.png"
+  },
+  "action": {
+    "default_title": "Blokky Settings"
+  },
+  "background": {
+    "service_worker": "js/background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "block/block.html",
+        "config/config.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

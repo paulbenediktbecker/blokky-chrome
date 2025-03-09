@@ -36,7 +36,7 @@ async function loadSettings() {
   const data = await chrome.storage.sync.get({
     settings: {
       waitingPeriod: 2,
-      timeSlotsEnabled: true,
+      timeSlotsEnabled: false,
       timeFrom: '08:00',
       timeTo: '18:00'
     }
