@@ -3,17 +3,41 @@ import { isMatchingDomain, normalizeDomain } from './domainMatching.js';
 
 let blockedSites = [];
 let whitelist = [];
+let settings = {
+  timeSlotsEnabled: true,
+  timeFrom: '08:00',
+  timeTo: '18:00'
+};
+
 const BLOCK_PAGE = chrome.runtime.getURL('block/block.html');
 const CONFIG_PAGE = chrome.runtime.getURL('config/config.html');
 
 // Hilfsfunktionen
+const initializeSettings = async () => {
+  const {settings: stored = settings} = await chrome.storage.sync.get('settings');
+  settings = stored;
+};
+function isWithinTimeSlot() {
+  if (!settings.timeSlotsEnabled) return true;
+  
+  const now = new Date();
+  const [currentHours, currentMinutes] = [now.getHours(), now.getMinutes()];
+  const currentTime = currentHours * 60 + currentMinutes;
+  
+  const [fromHours, fromMinutes] = settings.timeFrom.split(':').map(Number);
+  const [toHours, toMinutes] = settings.timeTo.split(':').map(Number);
+  
+  const fromTime = fromHours * 60 + fromMinutes;
+  const toTime = toHours * 60 + toMinutes;
+  
+  return currentTime >= fromTime && currentTime <= toTime;
+}
 
 const shouldBlockUrl = (url) => {
-  if (!url || url.startsWith(BLOCK_PAGE)) return false;
-  for (const domain of blockedSites) {
-    if (isMatchingDomain(url, domain)) return true;
-  }
-  return false;
+  return !!url &&
+    !url.startsWith(BLOCK_PAGE) &&
+    isWithinTimeSlot() &&
+    blockedSites.some(domain => isMatchingDomain(url, domain));
 };
 
 const isWhitelisted = (url, tabId) => {
@@ -96,6 +120,10 @@ chrome.storage.onChanged.addListener((changes) => {
   if (changes.blockedSites) {
     blockedSites = changes.blockedSites.newValue;
   }
+  
+  if (changes.settings) {
+    settings = changes.settings.newValue;
+  }
 });
 
 chrome.action.onClicked.addListener((tab) => {
@@ -105,6 +133,7 @@ chrome.action.onClicked.addListener((tab) => {
 chrome.alarms.create('whitelistCleanup', { periodInMinutes: 5 });
 
 (async () => {
+  await initializeSettings();
   await updateBlockList();
   await updateWhitelist();
 })();

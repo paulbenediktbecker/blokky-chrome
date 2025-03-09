@@ -43,24 +43,40 @@
     </div>
     <div id="settingsContainer" class="hidden">
       <h2 class="card-title pt-6 pb-8">Settings</h2>
-      <div class="flex justify-between items-center">
-        <p class="form-control text-lg">Waiting period</p>
-        <div class="w-96">
-          <input type="range" min="1" max="4" value="2" class="range range-primary" step="1" />
-          <div class="flex w-full justify-between px-2 text-xs">
-            <span>5 Seconds</span>
-            <span>10 Seconds</span>
-            <span>20 Seconds</span>
-            <span>1 Minute</span>
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <p class="text-lg">Waiting period</p>
+          <div class="w-96">
+            <input id="waitingPeriod" type="range" min="1" max="4" value="2" class="range range-primary" step="1" />
+            <div class="flex w-full justify-between px-2 text-xs">
+              <span>5 Seconds</span>
+              <span>10 Seconds</span>
+              <span>20 Seconds</span>
+              <span>1 Minute</span>
+            </div>
           </div>
-        </div>
+        </label>
       </div>
       <div class="divider"></div>
       <div class="form-control">
         <label class="label cursor-pointer">
           <span class=" text-lg">Configure time slots</span>
-          <input type="checkbox" class="toggle toggle-primary" checked="checked" />
+          <input id="timeSlotsToggle" type="checkbox" class="toggle toggle-primary" checked="checked" />
         </label>
+      </div>
+      <div id="timeSlots" class="hidden">
+        <div class="form-control">
+          <label class="label">
+            <span class="text-lg">From</span>
+            <input id="timeFrom" type="time" class="input input-primary" value="08:00" />
+          </label>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="text-lg">To</span>
+            <input id="timeTo" type="time" class="input input-primary" value="18:00" />
+          </label>
+        </div>
       </div>
     </div>
     <script type="module" src="config.js"></script>

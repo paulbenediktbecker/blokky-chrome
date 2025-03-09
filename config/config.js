@@ -1,14 +1,71 @@
 import { normalizeDomain } from "../js/domainMatching.js";
 
-document.getElementById('urlInput').addEventListener("keyup", ({ key }) => {
-  if (key === "Enter") {
-    addElement();
-  }
-})
-document.getElementById('addBtn').addEventListener('click', addElement);
+// Elemente cachieren
+const settingsElements = {
+  waitingPeriod: document.getElementById('waitingPeriod'),
+  timeSlotsToggle: document.getElementById('timeSlotsToggle'),
+  timeSlots: document.getElementById('timeSlots'),
+  timeFrom: document.getElementById('timeFrom'),
+  timeTo: document.getElementById('timeTo')
+};
 
+// Event Listener für Einstellungen
+document.getElementById('urlInput').addEventListener("keyup", ({ key }) => {
+  if (key === "Enter") addElement();
+});
+document.getElementById('addBtn').addEventListener('click', addElement);
 document.getElementById('settingsBtn').addEventListener('click', toggleSettings);
 
+// Einstellungen automatisch speichern bei Änderungen
+Object.values(settingsElements).forEach(element => {
+  element.addEventListener('input', saveSettings);
+});
+
+// Time Slots Toggle Sichtbarkeit
+document.getElementById('timeSlotsToggle').addEventListener('change', () => {
+  toggleTimeSlotsVisibility();
+  saveSettings();
+});
+
+function toggleTimeSlotsVisibility() {
+  const isVisible = settingsElements.timeSlotsToggle.checked;
+  timeSlots.classList.toggle('hidden', !isVisible);
+}
+
+async function loadSettings() {
+  const data = await chrome.storage.sync.get({
+    settings: {
+      waitingPeriod: 2,
+      timeSlotsEnabled: true,
+      timeFrom: '08:00',
+      timeTo: '18:00'
+    }
+  });
+  
+  const { settings } = data;
+  
+  // Werte setzen
+  settingsElements.waitingPeriod.value = settings.waitingPeriod;
+  settingsElements.timeSlotsToggle.checked = settings.timeSlotsEnabled;
+  settingsElements.timeFrom.value = settings.timeFrom;
+  settingsElements.timeTo.value = settings.timeTo;
+
+  // Sichtbarkeit initial setzen
+  toggleTimeSlotsVisibility();
+}
+
+function saveSettings() {
+  const settings = {
+    waitingPeriod: parseInt(settingsElements.waitingPeriod.value),
+    timeSlotsEnabled: settingsElements.timeSlotsToggle.checked,
+    timeFrom: settingsElements.timeFrom.value,
+    timeTo: settingsElements.timeTo.value
+  };
+  
+  chrome.storage.sync.set({ settings });
+}
+
+// Restliche Funktionen bleiben wie vorhanden
 function addElement() {
   const url = document.getElementById('urlInput').value;
   document.getElementById('urlInput').value = '';
@@ -55,14 +112,8 @@ function toggleSettings() {
   settingsBtn.classList.toggle('btn-neutral');
 }
 
-function loadSettings(){
-
-}
-
-function saveSettings(){
-  
-}
-
-updateList();
-
-document.addEventListener('DOMContentLoaded', loadSettings);
+// Initialisierung
+document.addEventListener('DOMContentLoaded', () => {
+  updateList();
+  loadSettings();
+});
