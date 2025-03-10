@@ -6,22 +6,20 @@ const settingsElements = {
   timeSlotsToggle: document.getElementById('timeSlotsToggle'),
   timeSlots: document.getElementById('timeSlots'),
   timeFrom: document.getElementById('timeFrom'),
-  timeTo: document.getElementById('timeTo')
+  timeTo: document.getElementById('timeTo'),
+  colorfulModeToggle: document.getElementById('colorfulModeToggle')
 };
 
-// Event Listener für Einstellungen
 document.getElementById('urlInput').addEventListener("keyup", ({ key }) => {
   if (key === "Enter") addElement();
 });
 document.getElementById('addBtn').addEventListener('click', addElement);
 document.getElementById('settingsBtn').addEventListener('click', toggleSettings);
 
-// Einstellungen automatisch speichern bei Änderungen
 Object.values(settingsElements).forEach(element => {
   element.addEventListener('input', saveSettings);
 });
 
-// Time Slots Toggle Sichtbarkeit
 document.getElementById('timeSlotsToggle').addEventListener('change', () => {
   toggleTimeSlotsVisibility();
   saveSettings();
@@ -38,7 +36,8 @@ async function loadSettings() {
       waitingPeriod: 2,
       timeSlotsEnabled: false,
       timeFrom: '08:00',
-      timeTo: '18:00'
+      timeTo: '18:00',
+      colorfulMode: true
     }
   });
   
@@ -49,8 +48,8 @@ async function loadSettings() {
   settingsElements.timeSlotsToggle.checked = settings.timeSlotsEnabled;
   settingsElements.timeFrom.value = settings.timeFrom;
   settingsElements.timeTo.value = settings.timeTo;
+  settingsElements.colorfulModeToggle.checked = settings.colorfulMode;
 
-  // Sichtbarkeit initial setzen
   toggleTimeSlotsVisibility();
 }
 
@@ -59,13 +58,13 @@ function saveSettings() {
     waitingPeriod: parseInt(settingsElements.waitingPeriod.value),
     timeSlotsEnabled: settingsElements.timeSlotsToggle.checked,
     timeFrom: settingsElements.timeFrom.value,
-    timeTo: settingsElements.timeTo.value
+    timeTo: settingsElements.timeTo.value,
+    colorfulMode: settingsElements.colorfulModeToggle.checked
   };
   
   chrome.storage.sync.set({ settings });
 }
 
-// Restliche Funktionen bleiben wie vorhanden
 function addElement() {
   const url = document.getElementById('urlInput').value;
   document.getElementById('urlInput').value = '';

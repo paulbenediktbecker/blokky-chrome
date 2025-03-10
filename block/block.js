@@ -9,7 +9,7 @@ let value = 0;
 // Neue Funktion zum Berechnen der Wartezeit
 async function getWaitingTime() {
   const { settings } = await chrome.storage.sync.get({
-    settings: { waitingPeriod: 2 }
+    settings: { waitingPeriod: 2, colorfulMode: true }
   });
   
   // Mapping der Slider-Werte auf Sekunden
@@ -19,8 +19,26 @@ async function getWaitingTime() {
     3: 20,
     4: 60
   };
+
+  if (settings.colorfulMode) {
+    enableColorfulMode();
+  }
   
   return waitingTimes[settings.waitingPeriod] * 1000; // in ms
+}
+
+function enableColorfulMode(){
+  document.querySelectorAll('.timer-options button').forEach(btn => {
+    btn.classList.add("btn-neutral");
+  })
+  document.getElementById("to-btn-1").classList.add("btn-success");
+  document.getElementById("to-btn-2").classList.add("btn-info");
+  document.getElementById("to-btn-3").classList.add("btn-warning");
+  document.getElementById("to-btn-4").classList.add("btn-neutral");
+
+  document.getElementById("text-title").classList.add("text-primary")
+  document.getElementById("cancel").classList.add("btn-error");
+  progressBarCirc.classList.add("text-primary");
 }
 
 // Progress Bar mit dynamischer Geschwindigkeit
